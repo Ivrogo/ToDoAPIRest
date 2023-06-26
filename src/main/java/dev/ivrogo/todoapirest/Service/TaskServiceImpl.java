@@ -2,6 +2,7 @@ package dev.ivrogo.todoapirest.Service;
 
 import dev.ivrogo.todoapirest.DTO.CreateTaskDTO;
 import dev.ivrogo.todoapirest.DTO.ResponseDTO;
+import dev.ivrogo.todoapirest.DTO.UpdateTaskDTO;
 import dev.ivrogo.todoapirest.Mapper.FromDTOToEntity;
 import dev.ivrogo.todoapirest.Model.Task;
 import dev.ivrogo.todoapirest.Repositories.ITaskRepository;
@@ -77,6 +78,48 @@ public class TaskServiceImpl implements ITaskService{
         } catch (Exception e) {
             response.setMessage("Error");
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<ResponseDTO> deleteTask(long id) {
+        ResponseDTO responseDTO = new ResponseDTO();
+
+        try {
+            Optional<Task> foundTaskToDelete = repository.findById(id);
+            if (foundTaskToDelete.isEmpty()) {
+                responseDTO.setMessage("The task doesn't exist");
+                return new ResponseEntity<>(responseDTO, HttpStatus.NOT_FOUND);
+            } else {
+                repository.delete(foundTaskToDelete.get());
+                responseDTO.setMessage("Task deleted successfully");
+                return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage("Error");
+            return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<ResponseDTO> updateTask(long id, UpdateTaskDTO updateTaskDTO) {
+        ResponseDTO responseDTO = new ResponseDTO();
+
+        try {
+            Optional<Task> foundTaskToUpdate = repository.findById(id);
+            if(foundTaskToUpdate.isEmpty()){
+                responseDTO.setMessage("The task doesnt exist");
+                return new ResponseEntity<>(responseDTO, HttpStatus.NOT_FOUND);
+            } else {
+                FromDTOToEntity.updateEntityFromDTO(foundTaskToUpdate.get(), updateTaskDTO);
+                Task updatedTask = repository.save(foundTaskToUpdate.get());
+                responseDTO.setMessage("Task updated successfully");
+                responseDTO.setValue(updatedTask);
+                return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage("Error");
+            return new ResponseEntity<>(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

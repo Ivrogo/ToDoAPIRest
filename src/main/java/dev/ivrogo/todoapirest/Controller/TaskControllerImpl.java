@@ -2,35 +2,45 @@ package dev.ivrogo.todoapirest.Controller;
 
 import dev.ivrogo.todoapirest.DTO.CreateTaskDTO;
 import dev.ivrogo.todoapirest.DTO.ResponseDTO;
+import dev.ivrogo.todoapirest.DTO.UpdateTaskDTO;
 import dev.ivrogo.todoapirest.Service.ITaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/tasks")
 public class TaskControllerImpl implements ITaskController{
 
     @Autowired
-    private ITaskService service;
+    private ITaskService taskService;
     @Override
     @PostMapping("/newTask")
     public ResponseEntity<ResponseDTO> createTask(CreateTaskDTO createTaskDTO) {
-        return service.createTask(createTaskDTO);
+        return taskService.createTask(createTaskDTO);
     }
 
     @Override
-    @GetMapping("/Tasks/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ResponseDTO> findTask(long id) {
-        return service.findTask(id);
+        return taskService.findTask(id);
     }
 
     @Override
-    @GetMapping("/Tasks")
+    @GetMapping()
     public ResponseEntity<ResponseDTO> findAll() {
-        return service.findAll();
+        return taskService.findAll();
+    }
+
+    @Override
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDTO> deleteTask(long id) {
+        return taskService.deleteTask(id);
+    }
+
+    @Override
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ResponseDTO> updateTask(long id, UpdateTaskDTO updateTaskDTO) {
+        return taskService.updateTask(id, updateTaskDTO);
     }
 }
