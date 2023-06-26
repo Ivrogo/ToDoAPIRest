@@ -3,6 +3,7 @@ package dev.ivrogo.todoapirest.Service;
 import dev.ivrogo.todoapirest.DTO.CreateTaskDTO;
 import dev.ivrogo.todoapirest.DTO.ResponseDTO;
 import dev.ivrogo.todoapirest.DTO.UpdateTaskDTO;
+import dev.ivrogo.todoapirest.Model.Task;
 import org.springframework.http.ResponseEntity;
 
 public interface ITaskService {
@@ -16,5 +17,7 @@ public interface ITaskService {
     ResponseEntity<ResponseDTO> deleteTask(long id);
 
     ResponseEntity<ResponseDTO> updateTask(long id, UpdateTaskDTO updateTaskDTO);
+
+    ResponseEntity<ResponseDTO>assignTaskToUser(long userId, Task task);
 
 }

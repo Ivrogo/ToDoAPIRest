@@ -3,6 +3,7 @@ package dev.ivrogo.todoapirest.Controller;
 import dev.ivrogo.todoapirest.DTO.CreateTaskDTO;
 import dev.ivrogo.todoapirest.DTO.ResponseDTO;
 import dev.ivrogo.todoapirest.DTO.UpdateTaskDTO;
+import dev.ivrogo.todoapirest.Model.Task;
 import dev.ivrogo.todoapirest.Service.ITaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +43,11 @@ public class TaskControllerImpl implements ITaskController{
     @PutMapping("/update/{id}")
     public ResponseEntity<ResponseDTO> updateTask(long id, UpdateTaskDTO updateTaskDTO) {
         return taskService.updateTask(id, updateTaskDTO);
+    }
+
+    @Override
+    @PostMapping("/assign/{userId}")
+    public ResponseEntity<ResponseDTO> assignTaskToUser(long userId, Task task) {
+        return taskService.assignTaskToUser(userId, task);
     }
 }

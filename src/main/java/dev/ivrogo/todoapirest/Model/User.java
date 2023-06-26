@@ -2,6 +2,9 @@ package dev.ivrogo.todoapirest.Model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "Users")
 public class User {
@@ -13,6 +16,8 @@ public class User {
     private String username;
     @Column(name = "password")
     private String password;
+    @OneToMany(mappedBy = "assignedUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Task> tasks = new ArrayList<>();
 
     public User(String username, String password) {
         this.username = username;
@@ -45,5 +50,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }

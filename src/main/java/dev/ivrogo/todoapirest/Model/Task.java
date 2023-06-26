@@ -12,6 +12,10 @@ public class Task {
     @Column
     private String description;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User assignedUser;
+
     public Task(String description) {
         this.description = description;
 
@@ -35,5 +39,13 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public User getAssignedUser() {
+        return assignedUser;
+    }
+
+    public void setAssignedUser(User assignedUser) {
+        this.assignedUser = assignedUser;
     }
 }
