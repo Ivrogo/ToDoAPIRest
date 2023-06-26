@@ -5,25 +5,32 @@ import dev.ivrogo.todoapirest.DTO.ResponseDTO;
 import dev.ivrogo.todoapirest.Service.ITaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/v1")
 public class TaskControllerImpl implements ITaskController{
 
     @Autowired
     private ITaskService service;
     @Override
+    @PostMapping("/newTask")
     public ResponseEntity<ResponseDTO> createTask(CreateTaskDTO createTaskDTO) {
-        return null;
+        return service.createTask(createTaskDTO);
     }
 
     @Override
+    @GetMapping("/Tasks/{id}")
     public ResponseEntity<ResponseDTO> findTask(long id) {
-        return null;
+        return service.findTask(id);
     }
 
     @Override
+    @GetMapping("/Tasks")
     public ResponseEntity<ResponseDTO> findAll() {
-        return null;
+        return service.findAll();
     }
 }

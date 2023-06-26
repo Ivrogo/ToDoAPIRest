@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,8 +31,9 @@ public class TaskServiceImpl implements ITaskService{
                 responseDTO.setMessage("The task already exists");
                 return new ResponseEntity<>(responseDTO, HttpStatus.CONFLICT);
             } else {
-                repository.save(FromDTOToEntity.fromDTOToEntity(createTaskDTO));
+                Task task = repository.save(FromDTOToEntity.fromDTOToEntity(createTaskDTO));
                 responseDTO.setMessage("Task saved successfully");
+                responseDTO.setValue(task);
                 return new ResponseEntity<>(responseDTO, HttpStatus.OK);
             }
         } catch (Exception e) {
@@ -42,11 +44,39 @@ public class TaskServiceImpl implements ITaskService{
 
     @Override
     public ResponseEntity<ResponseDTO> findTask(long id) {
-        return null;
+        ResponseDTO response = new ResponseDTO();
+        try {
+            Optional<Task> foundTask = repository.findById(id);
+            if (foundTask.isEmpty()) {
+                response.setMessage("The task doesnt exists");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            } else {
+                response.setMessage("Task Found");
+                response.setValue(foundTask);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            response.setMessage("Error");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
     public ResponseEntity<ResponseDTO> findAll() {
-        return null;
+        ResponseDTO response = new ResponseDTO();
+        try {
+            List<Task> foundTasks = repository.findAll();
+            if (foundTasks.isEmpty()) {
+                response.setMessage("There's no tasks to be found");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            } else {
+                response.setMessage("Found Tasks");
+                response.setValue(foundTasks);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            response.setMessage("Error");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
