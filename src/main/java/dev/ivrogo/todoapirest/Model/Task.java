@@ -3,18 +3,22 @@ package dev.ivrogo.todoapirest.Model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "tasks")
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column
     private String description;
-    @ManyToOne
-    private User user;
 
-    public Task(String description, User user) {
+    public Task(String description) {
         this.description = description;
-        this.user = user;
+
+    }
+
+    public Task() {
+
     }
 
     public long getId() {
@@ -31,13 +35,5 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }
