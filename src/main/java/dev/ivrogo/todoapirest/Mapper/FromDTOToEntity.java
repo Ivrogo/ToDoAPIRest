@@ -17,7 +17,7 @@ public class FromDTOToEntity {
 
     public static User fromDTOToEntity(CreateUserDTO createUserDTO) {
         User user = new User();
-        user.setUsername(createUserDTO.getUsername());
+        user.setEmail(createUserDTO.getEmail());
         user.setPassword(createUserDTO.getPassword());
 
         return user;

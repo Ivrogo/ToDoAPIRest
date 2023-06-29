@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface ITaskController {
 
+    String demo();
+
     ResponseEntity<ResponseDTO> createTask(@RequestBody CreateTaskDTO createTaskDTO);
 
     ResponseEntity<ResponseDTO> findTask(@PathVariable long id);

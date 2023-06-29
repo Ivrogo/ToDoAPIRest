@@ -15,6 +15,13 @@ public class TaskControllerImpl implements ITaskController{
 
     @Autowired
     private ITaskService taskService;
+
+    @Override
+    @GetMapping("/demo")
+    public String demo() {
+        return "Hola mundo";
+    }
+
     @Override
     @PostMapping("/newTask")
     public ResponseEntity<ResponseDTO> createTask(CreateTaskDTO createTaskDTO) {
