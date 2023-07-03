@@ -1,12 +1,11 @@
 package dev.ivrogo.todoapirest.DTO;
 
-public class CreateUserDTO {
-
+public class UpdateUserDTO {
     private String email;
     private String password;
     private String name;
 
-    public CreateUserDTO(String email, String password, String name) {
+    public UpdateUserDTO(String email, String password, String name) {
         this.email = email;
         this.password = password;
         this.name = name;
